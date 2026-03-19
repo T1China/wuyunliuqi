@@ -1,0 +1,4 @@
+<!-- components/qi-circle/qi-circle.wxml -->
+<view class="container">
+  <canvas id="{{canvasId}}" type="2d" class="canvas"></canvas>
+</view>

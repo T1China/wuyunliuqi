@@ -1,0 +1,23 @@
+# Node
+node_modules/
+miniprogram/node_modules/
+miniprogram/miniprogram_npm/
+
+# .NET build artifacts
+obj/
+bin/
+*.user
+.vs/
+
+# WeChat DevTools private config (contains AppID)
+miniprogram/project.private.config.json
+
+# Claude Code local settings
+.claude/
+
+# macOS
+.DS_Store
+
+# Windows
+Thumbs.db
+*.log

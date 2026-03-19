@@ -1,0 +1,53 @@
+<!-- pages/calculate/calculate.wxml -->
+<view class="page">
+
+  <view class="page-header">
+    <text class="page-title">命图推算</text>
+    <text class="page-sub">输入日期，生成五运六气格局</text>
+  </view>
+
+  <!-- 出生日期 -->
+  <view class="date-card birth-card">
+    <view class="date-card-label">
+      <view class="dot dot-birth"></view>
+      <text class="label-text">出生日期（命图）</text>
+    </view>
+    <picker mode="date" value="{{birthDate}}" start="1900-01-01" end="{{today}}"
+            bindchange="onBirthChange">
+      <view class="picker-row">
+        <text class="picker-date">{{birthDate || '请选择'}}</text>
+        <text class="picker-gz">{{birthGanzhi}}</text>
+        <text class="picker-arrow">›</text>
+      </view>
+    </picker>
+  </view>
+
+  <!-- 发病日期 -->
+  <view class="date-card disease-card">
+    <view class="date-card-label">
+      <view class="dot dot-disease"></view>
+      <text class="label-text">发病日期（病图）</text>
+    </view>
+    <picker mode="date" value="{{diseaseDate}}" start="1900-01-01" end="{{today}}"
+            bindchange="onDiseaseChange">
+      <view class="picker-row">
+        <text class="picker-date">{{diseaseDate || '请选择'}}</text>
+        <text class="picker-gz">{{diseaseGanzhi}}</text>
+        <text class="picker-arrow">›</text>
+      </view>
+    </picker>
+  </view>
+
+  <!-- 生成按钮 -->
+  <view class="gen-btn" bindtap="onGenerate">
+    <text class="gen-text">生 成 命 图 与 病 图</text>
+  </view>
+
+  <!-- 说明 -->
+  <view class="tips">
+    <view class="tip-row"><text class="tip-dot">·</text><text class="tip-txt">命图反映出生时的五运六气格局，代表先天禀赋体质倾向</text></view>
+    <view class="tip-row"><text class="tip-dot">·</text><text class="tip-txt">病图反映发病时的格局，帮助分析发病原因与体质关系</text></view>
+    <view class="tip-row"><text class="tip-dot">·</text><text class="tip-txt">李阳波数字编码将六气压缩为数字，便于格局对比分析</text></view>
+  </view>
+
+</view>

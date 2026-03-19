@@ -1,0 +1,106 @@
+<!-- pages/home/home.wxml -->
+<view class="page">
+
+  <!-- 顶部：日期 + 干支 -->
+  <view class="header">
+    <view class="header-left">
+      <text class="header-date">{{today}}</text>
+      <text class="header-gz clickable" bindtap="onTermTap" data-term="{{lunarInfo.ganzhi}}">{{lunarInfo.ganzhi}} · {{lunarInfo.shengxiao}}</text>
+    </view>
+    <view class="header-right">
+      <text class="header-year">{{currentYear}}</text>
+    </view>
+  </view>
+
+  <!-- 今日核心信息 -->
+  <view class="main-card" wx:if="{{qiResult}}">
+    <view class="main-card-title">今日运气</view>
+
+    <!-- 干支大字 -->
+    <view class="ganzhi-row">
+      <text class="ganzhi-text clickable" bindtap="onTermTap" data-term="{{qiResult.ganzhi}}">{{qiResult.ganzhi}}</text>
+      <view class="wuxing-badge" style="background:{{wuxingColor[qiResult.wuxingBase]}}20; border-color:{{wuxingColor[qiResult.wuxingBase]}}">
+        <text class="wuxing-text clickable" style="color:{{wuxingColor[qiResult.wuxingBase]}}" bindtap="onTermTap" data-term="{{qiResult.wuxingBase}}">{{qiResult.wuxingBase}}</text>
+      </view>
+    </view>
+
+    <!-- 四格信息 -->
+    <view class="info-grid">
+      <view class="info-cell">
+        <text class="info-label clickable" bindtap="onTermTap" data-term="主运">主运</text>
+        <text class="info-val clickable" style="color:{{wuxingColor[qiResult.wuxingBase]}}" bindtap="onTermTap" data-term="{{qiResult.wuxing}}">{{qiResult.wuxing}}</text>
+        <text class="info-num">{{qiResult.yangboNums[0]}}</text>
+      </view>
+      <view class="info-cell">
+        <text class="info-label clickable" bindtap="onTermTap" data-term="司天">司天</text>
+        <text class="info-val clickable" bindtap="onTermTap" data-term="{{qiResult.sitian}}">{{qiResult.sitian}}</text>
+        <text class="info-num">{{qiResult.yangboNums[1]}}</text>
+      </view>
+      <view class="info-cell">
+        <text class="info-label clickable" bindtap="onTermTap" data-term="当令主气">当令主气</text>
+        <text class="info-val clickable" bindtap="onTermTap" data-term="{{qiResult.zhuqi}}">{{qiResult.zhuqi}}</text>
+        <text class="info-num">{{qiResult.yangboNums[3]}}</text>
+      </view>
+      <view class="info-cell">
+        <text class="info-label clickable" bindtap="onTermTap" data-term="当令客气">当令客气</text>
+        <text class="info-val accent-text clickable" bindtap="onTermTap" data-term="{{qiResult.keqi}}">{{qiResult.keqi}}</text>
+        <text class="info-num">{{qiResult.yangboNums[4]}}</text>
+      </view>
+    </view>
+  </view>
+
+  <!-- 节气倒计时 -->
+  <view class="jieqi-card" wx:if="{{nextJieqi}}">
+    <view class="jieqi-inner">
+      <view>
+        <text class="jieqi-tip">下一节气</text>
+        <text class="jieqi-name">{{nextJieqi.name}}</text>
+      </view>
+      <view class="jieqi-count">
+        <text class="jieqi-num">{{nextJieqi.daysUntil}}</text>
+        <text class="jieqi-unit">天后</text>
+      </view>
+    </view>
+  </view>
+
+  <!-- 年度六气 -->
+  <view class="section-card">
+    <text class="section-title">{{currentYear}}年六气</text>
+    <view class="seg-list">
+      <view
+        class="seg-item {{item.active ? 'seg-active' : ''}}"
+        wx:for="{{yearSegments}}"
+        wx:key="label"
+      >
+        <view class="seg-left">
+          <text class="seg-label clickable" bindtap="onTermTap" data-term="{{item.label}}">{{item.label}}</text>
+          <text class="seg-date">{{item.startDesc}}～{{item.endDesc}}</text>
+        </view>
+        <view class="seg-right">
+          <text class="seg-qi clickable" bindtap="onTermTap" data-term="{{item.zhuqi}}">{{item.zhuqi}}</text>
+          <text class="seg-ke clickable" bindtap="onTermTap" data-term="{{item.keqi}}">客 {{item.keqi}}</text>
+        </view>
+      </view>
+    </view>
+  </view>
+
+  <!-- CTA -->
+  <view class="cta-btn" bindtap="goCalculate">
+    <text class="cta-text">推 算 命 图 / 病 图</text>
+  </view>
+
+  <!-- 术语解释底部弹窗（原生实现，无需 tdesign） -->
+  <view class="popup-mask {{popupVisible?'popup-mask-show':''}}" catchtap="onPopupClose"></view>
+  <view class="popup-sheet {{popupVisible?'popup-sheet-show':''}}">
+    <view class="popup-bar">
+      <view class="popup-drag-handle"></view>
+      <view class="popup-close-btn" catchtap="onPopupClose"><text class="popup-close-x">✕</text></view>
+    </view>
+    <view class="explain-popup" wx:if="{{popupInfo}}">
+      <view class="ep-title" style="color:{{popupInfo.color||'#FFD700'}}">{{popupInfo.title}}</view>
+      <view class="ep-subtitle" wx:if="{{popupInfo.subtitle}}">{{popupInfo.subtitle}}</view>
+      <view class="ep-body">{{popupInfo.body}}</view>
+    </view>
+  </view>
+
+</view>

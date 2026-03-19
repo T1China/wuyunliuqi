@@ -1,0 +1,81 @@
+<!-- pages/knowledge/knowledge.wxml -->
+<view class="page">
+  <view class="tab-bar">
+    <view class="tab-item {{activeTab===0?'tab-on':''}}" bindtap="switchTab" data-idx="{{0}}">六气</view>
+    <view class="tab-item {{activeTab===1?'tab-on':''}}" bindtap="switchTab" data-idx="{{1}}">五行</view>
+    <view class="tab-item {{activeTab===2?'tab-on':''}}" bindtap="switchTab" data-idx="{{2}}">理论</view>
+  </view>
+
+  <!-- 六气详解 -->
+  <view class="tab-body" hidden="{{activeTab!==0}}">
+    <view class="qi-card" wx:for="{{liuqiList}}" wx:key="name">
+      <view class="qi-head" style="border-left:6rpx solid {{item.color}}">
+        <text class="qi-name" style="color:{{item.color}}">{{item.name}}</text>
+        <text class="qi-organ">{{item.organ}}</text>
+      </view>
+      <view class="qi-body">
+        <view class="qi-section">
+          <text class="qs-label nature-label">气候</text>
+          <text class="qs-text">{{item.nature}}</text>
+        </view>
+        <view class="qi-section">
+          <text class="qs-label disease-label">易发</text>
+          <text class="qs-text disease-text">{{item.disease}}</text>
+        </view>
+        <view class="qi-section">
+          <text class="qs-label nourish-label">调养</text>
+          <text class="qs-text nourish-text">{{item.nourish}}</text>
+        </view>
+      </view>
+    </view>
+  </view>
+
+  <!-- 五行脏腑 -->
+  <view class="tab-body" hidden="{{activeTab!==1}}">
+    <view class="wx-card" wx:for="{{wuxingList}}" wx:key="element">
+      <view class="wx-head">
+        <view class="wx-badge" style="background:{{item.color}}22; border:2rpx solid {{item.color}}">
+          <text class="wx-el" style="color:{{item.color}}">{{item.element}}</text>
+        </view>
+        <view class="wx-info">
+          <text class="wx-zang">{{item.zang}} · {{item.fu}}</text>
+          <view class="wx-tags">
+            <text class="wx-tag">{{item.season}}季</text>
+            <text class="wx-tag">{{item.emotion}}志</text>
+            <text class="wx-tag">{{item.taste}}味</text>
+          </view>
+        </view>
+      </view>
+      <view class="wx-body">
+        <view class="qi-section">
+          <text class="qs-label nature-label">特性</text>
+          <text class="qs-text">{{item.nature}}</text>
+        </view>
+        <view class="qi-section">
+          <text class="qs-label nourish-label">调养</text>
+          <text class="qs-text nourish-text">{{item.nourish}}</text>
+        </view>
+      </view>
+    </view>
+  </view>
+
+  <!-- 理论基础 -->
+  <view class="tab-body" hidden="{{activeTab!==2}}">
+    <view class="theory-card">
+      <text class="theory-title">李阳波数字体系</text>
+      <text class="theory-text">{{yangboIntro}}</text>
+    </view>
+    <view class="num-table">
+      <view class="num-row num-header"><text>五行</text><text>数字</text><text>太过</text><text>不及</text></view>
+      <view class="num-row wood-row"><text>木</text><text>410</text><text>410∧</text><text>410∨</text></view>
+      <view class="num-row fire-row"><text>火</text><text>115</text><text>115∧</text><text>115∨</text></view>
+      <view class="num-row earth-row"><text>土</text><text>126</text><text>126∧</text><text>126∨</text></view>
+      <view class="num-row metal-row"><text>金</text><text>28</text><text>28∧</text><text>28∨</text></view>
+      <view class="num-row water-row"><text>水</text><text>39</text><text>39∧</text><text>39∨</text></view>
+    </view>
+    <view class="theory-card">
+      <text class="theory-title">干支纪年</text>
+      <text class="theory-text">{{ganzhiIntro}}</text>
+    </view>
+  </view>
+</view>

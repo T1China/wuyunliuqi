@@ -1,0 +1,50 @@
+<!-- pages/profile/profile.wxml -->
+<view class="page">
+
+  <view class="page-title">历史推算</view>
+
+  <!-- 空状态 -->
+  <view class="empty" wx:if="{{historyList.length === 0}}">
+    <text class="empty-icon">☯</text>
+    <text class="empty-text">暂无推算记录</text>
+    <text class="empty-sub">前往"推算"页面生成命图</text>
+  </view>
+
+  <!-- 历史列表 -->
+  <view wx:else>
+    <view
+      class="history-item card"
+      wx:for="{{historyList}}"
+      wx:key="ts"
+      bindtap="goResult"
+      data-birth="{{item.birth}}"
+      data-disease="{{item.disease}}"
+    >
+      <view class="history-row">
+        <view class="history-label birth-label">命</view>
+        <text class="history-date">{{item.birth}}</text>
+      </view>
+      <view class="history-row">
+        <view class="history-label disease-label">病</view>
+        <text class="history-date">{{item.disease}}</text>
+      </view>
+      <text class="history-time">{{item.dateStr}}</text>
+      <text class="history-arrow">›</text>
+    </view>
+
+    <view class="clear-btn" bindtap="clearHistory">
+      <text>清除历史记录</text>
+    </view>
+  </view>
+
+  <!-- 关于 -->
+  <view class="about-card card">
+    <text class="about-title">关于</text>
+    <text class="about-text">
+      本程序基于李阳波《开启中医之门》中的五运六气理论，
+      以1984甲子年为基准，计算干支、五运主运、司天在泉、
+      主气客气等传统中医气化信息。
+    </text>
+  </view>
+
+</view>

@@ -1,0 +1,59 @@
+/* app.wxss — 全局样式变量与基础重置 */
+page {
+  --color-wood: #4CAF50;
+  --color-fire: #F44336;
+  --color-earth: #FF9800;
+  --color-metal: #9E9E9E;
+  --color-water: #2196F3;
+
+  --bg-primary: #1A2744;
+  --bg-card: #243560;
+  --bg-card-hover: #223344;
+
+  --text-primary: #E8EAF6;
+  --text-secondary: #90A4AE;
+  --text-accent: #FFD700;
+
+  background-color: var(--bg-primary);
+  color: var(--text-primary);
+  font-family: -apple-system, "PingFang SC", "Microsoft YaHei", sans-serif;
+  font-size: 28rpx;
+  line-height: 1.6;
+  box-sizing: border-box;
+}
+
+/* 通用卡片 */
+.card {
+  background: var(--bg-card);
+  border-radius: 20rpx;
+  padding: 32rpx;
+  margin: 20rpx 0;
+}
+
+/* 五行颜色工具类 */
+.wood  { color: var(--color-wood); }
+.fire  { color: var(--color-fire); }
+.earth { color: var(--color-earth); }
+.metal { color: var(--color-metal); }
+.water { color: var(--color-water); }
+
+.bg-wood  { background: var(--color-wood); }
+.bg-fire  { background: var(--color-fire); }
+.bg-earth { background: var(--color-earth); }
+.bg-metal { background: var(--color-metal); }
+.bg-water { background: var(--color-water); }
+
+/* 分割线 */
+.divider {
+  height: 1rpx;
+  background: rgba(255,255,255,0.08);
+  margin: 20rpx 0;
+}
+
+/* 标题 */
+.section-title {
+  font-size: 32rpx;
+  font-weight: 600;
+  color: var(--text-accent);
+  margin-bottom: 16rpx;
+}

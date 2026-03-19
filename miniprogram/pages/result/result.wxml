@@ -1,0 +1,217 @@
+<!-- pages/result/result.wxml -->
+
+<!-- ── qiNode 模板：单个五行节点（能量环 + 核心圆） ── -->
+<template name="qiNode">
+  <view class="qn-wrap">
+    <view class="qn-ring qn-r3" style="{{node.ring3Style}}" wx:if="{{node.cnt>=3}}"></view>
+    <view class="qn-ring qn-r2" style="{{node.ring2Style}}" wx:if="{{node.cnt>=2}}"></view>
+    <view class="qn-ring qn-r1" style="{{node.ring1Style}}" wx:if="{{node.cnt>=1}}"></view>
+    <view class="qn-circle" style="{{node.circleStyle}}">
+      <text class="qn-el" style="color:{{node.color}}">{{node.el}}</text>
+      <text class="qn-zang">{{node.zang}}</text>
+      <text class="qn-fu">{{node.fu}}</text>
+    </view>
+  </view>
+</template>
+
+<view class="page">
+
+  <!-- Tab 栏 -->
+  <view class="tab-bar">
+    <view class="tab-item {{activeTab===0?'tab-on':''}}" bindtap="switchTab" data-idx="{{0}}">命图</view>
+    <view class="tab-item {{activeTab===1?'tab-on':''}}" bindtap="switchTab" data-idx="{{1}}">病图</view>
+    <view class="tab-item {{activeTab===2?'tab-on':''}}" bindtap="switchTab" data-idx="{{2}}">对比</view>
+  </view>
+
+  <!-- ===== 命图 ===== -->
+  <view class="tab-body" hidden="{{activeTab!==0}}">
+    <view class="date-banner birth-banner">
+      <text class="banner-date">{{birthDate}}</text>
+      <text class="banner-gz">{{birthLunar.ganzhi}}</text>
+    </view>
+    <view class="data-card" wx:if="{{birthResult}}">
+      <view class="data-row"><text class="dk clickable" bindtap="onTermTap" data-term="干支">干支</text><text class="dv gold clickable" bindtap="onTermTap" data-term="{{birthResult.ganzhi}}">{{birthResult.ganzhi}}</text></view>
+      <view class="data-row"><text class="dk clickable" bindtap="onTermTap" data-term="主运">主运</text>
+        <text class="dv clickable" style="color:{{wuxingColor[birthResult.wuxingBase]}}" bindtap="onTermTap" data-term="{{birthResult.wuxing}}">{{birthResult.wuxing}}</text>
+        <text class="dnum">{{birthResult.yangboNums[0]}}</text></view>
+      <view class="data-row"><text class="dk clickable" bindtap="onTermTap" data-term="司天">司天</text><text class="dv clickable" bindtap="onTermTap" data-term="{{birthResult.sitian}}">{{birthResult.sitian}}</text><text class="dnum">{{birthResult.yangboNums[1]}}</text></view>
+      <view class="data-row"><text class="dk clickable" bindtap="onTermTap" data-term="在泉">在泉</text><text class="dv clickable" bindtap="onTermTap" data-term="{{birthResult.zaiquan}}">{{birthResult.zaiquan}}</text><text class="dnum">{{birthResult.yangboNums[2]}}</text></view>
+      <view class="data-row"><text class="dk clickable" bindtap="onTermTap" data-term="主气">主气</text><text class="dv clickable" bindtap="onTermTap" data-term="{{birthResult.zhuqi}}">{{birthResult.zhuqi}}</text><text class="dnum">{{birthResult.yangboNums[3]}}</text></view>
+      <view class="data-row"><text class="dk clickable" bindtap="onTermTap" data-term="客气">客气</text><text class="dv gold clickable" bindtap="onTermTap" data-term="{{birthResult.keqi}}">{{birthResult.keqi}}</text><text class="dnum">{{birthResult.yangboNums[4]}}</text></view>
+    </view>
+
+    <!-- 命图五行图（纯 CSS/WXML，无 canvas） -->
+    <view class="chart-wrap {{chartEnterClass}}" bindtap="expandChart" data-type="birth">
+      <view class="qi-chart">
+        <view class="qi-lv"></view>
+        <view class="qi-lh"></view>
+        <text class="qi-dir qi-dir-s">南</text>
+        <text class="qi-dir qi-dir-n">北</text>
+        <text class="qi-dir qi-dir-e">东</text>
+        <text class="qi-dir qi-dir-w">西</text>
+        <view class="qi-pos qi-pf"><template is="qiNode" data="{{node: birthChart.fire}}"/></view>
+        <view class="qi-pos qi-pw"><template is="qiNode" data="{{node: birthChart.water}}"/></view>
+        <view class="qi-pos qi-pm"><template is="qiNode" data="{{node: birthChart.wood}}"/></view>
+        <view class="qi-pos qi-pe"><template is="qiNode" data="{{node: birthChart.earth}}"/></view>
+        <view class="qi-pos qi-pk"><template is="qiNode" data="{{node: birthChart.metal}}"/></view>
+      </view>
+      <view class="expand-hint">
+        <text class="expand-icon">⛶</text>
+        <text class="expand-text">点击全屏</text>
+      </view>
+    </view>
+
+    <view class="qi-table-card" wx:if="{{birthResult}}">
+      <text class="card-title">{{birthResult.ganzhi}}年六气</text>
+      <view class="qi-table-row header-row">
+        <text>气段</text><text>主气</text><text>客气</text>
+      </view>
+      <view class="qi-table-row {{index===birthResult.zhuqiIndex?'row-on':''}}"
+            wx:for="{{birthResult.allZhuqi}}" wx:key="index">
+        <text class="col-label clickable" bindtap="onTermTap" data-term="{{qiLabels[index]}}">{{qiLabels[index]}}</text>
+        <text class="clickable" bindtap="onTermTap" data-term="{{item}}">{{item}}</text>
+        <text class="clickable" bindtap="onTermTap" data-term="{{birthResult.allKeqi[index]}}">{{birthResult.allKeqi[index]}}</text>
+      </view>
+    </view>
+  </view>
+
+  <!-- ===== 病图 ===== -->
+  <view class="tab-body" hidden="{{activeTab!==1}}">
+    <view class="date-banner disease-banner">
+      <text class="banner-date">{{diseaseDate}}</text>
+      <text class="banner-gz">{{diseaseLunar.ganzhi}}</text>
+    </view>
+    <view class="data-card" wx:if="{{diseaseResult}}">
+      <view class="data-row"><text class="dk clickable" bindtap="onTermTap" data-term="干支">干支</text><text class="dv gold clickable" bindtap="onTermTap" data-term="{{diseaseResult.ganzhi}}">{{diseaseResult.ganzhi}}</text></view>
+      <view class="data-row"><text class="dk clickable" bindtap="onTermTap" data-term="主运">主运</text>
+        <text class="dv clickable" style="color:{{wuxingColor[diseaseResult.wuxingBase]}}" bindtap="onTermTap" data-term="{{diseaseResult.wuxing}}">{{diseaseResult.wuxing}}</text>
+        <text class="dnum">{{diseaseResult.yangboNums[0]}}</text></view>
+      <view class="data-row"><text class="dk clickable" bindtap="onTermTap" data-term="司天">司天</text><text class="dv clickable" bindtap="onTermTap" data-term="{{diseaseResult.sitian}}">{{diseaseResult.sitian}}</text><text class="dnum">{{diseaseResult.yangboNums[1]}}</text></view>
+      <view class="data-row"><text class="dk clickable" bindtap="onTermTap" data-term="在泉">在泉</text><text class="dv clickable" bindtap="onTermTap" data-term="{{diseaseResult.zaiquan}}">{{diseaseResult.zaiquan}}</text><text class="dnum">{{diseaseResult.yangboNums[2]}}</text></view>
+      <view class="data-row"><text class="dk clickable" bindtap="onTermTap" data-term="主气">主气</text><text class="dv clickable" bindtap="onTermTap" data-term="{{diseaseResult.zhuqi}}">{{diseaseResult.zhuqi}}</text><text class="dnum">{{diseaseResult.yangboNums[3]}}</text></view>
+      <view class="data-row"><text class="dk clickable" bindtap="onTermTap" data-term="客气">客气</text><text class="dv gold clickable" bindtap="onTermTap" data-term="{{diseaseResult.keqi}}">{{diseaseResult.keqi}}</text><text class="dnum">{{diseaseResult.yangboNums[4]}}</text></view>
+    </view>
+
+    <!-- 病图五行图 -->
+    <view class="chart-wrap {{chartEnterClass}}" bindtap="expandChart" data-type="disease">
+      <view class="qi-chart">
+        <view class="qi-lv"></view>
+        <view class="qi-lh"></view>
+        <text class="qi-dir qi-dir-s">南</text>
+        <text class="qi-dir qi-dir-n">北</text>
+        <text class="qi-dir qi-dir-e">东</text>
+        <text class="qi-dir qi-dir-w">西</text>
+        <view class="qi-pos qi-pf"><template is="qiNode" data="{{node: diseaseChart.fire}}"/></view>
+        <view class="qi-pos qi-pw"><template is="qiNode" data="{{node: diseaseChart.water}}"/></view>
+        <view class="qi-pos qi-pm"><template is="qiNode" data="{{node: diseaseChart.wood}}"/></view>
+        <view class="qi-pos qi-pe"><template is="qiNode" data="{{node: diseaseChart.earth}}"/></view>
+        <view class="qi-pos qi-pk"><template is="qiNode" data="{{node: diseaseChart.metal}}"/></view>
+      </view>
+      <view class="expand-hint">
+        <text class="expand-icon">⛶</text>
+        <text class="expand-text">点击全屏</text>
+      </view>
+    </view>
+  </view>
+
+  <!-- ===== 对比 ===== -->
+  <view class="tab-body" hidden="{{activeTab!==2}}">
+    <view class="cmp-header">
+      <view class="cmp-col birth-col"><text class="cmp-title">命图</text><text class="cmp-sub">{{birthDate}}</text></view>
+      <view class="cmp-col disease-col"><text class="cmp-title">病图</text><text class="cmp-sub">{{diseaseDate}}</text></view>
+    </view>
+    <view class="data-card" wx:if="{{birthResult && diseaseResult}}">
+      <view class="cmp-row"><text class="ck"></text><text class="cv birth-cv">命图</text><text class="cv disease-cv">病图</text></view>
+      <view class="cmp-row"><text class="ck clickable" bindtap="onTermTap" data-term="干支">干支</text><text class="cv gold clickable" bindtap="onTermTap" data-term="{{birthResult.ganzhi}}">{{birthResult.ganzhi}}</text><text class="cv gold clickable" bindtap="onTermTap" data-term="{{diseaseResult.ganzhi}}">{{diseaseResult.ganzhi}}</text></view>
+      <view class="cmp-row"><text class="ck clickable" bindtap="onTermTap" data-term="主运">主运</text>
+        <text class="cv clickable" style="color:{{wuxingColor[birthResult.wuxingBase]}}" bindtap="onTermTap" data-term="{{birthResult.wuxingBase}}">{{birthResult.wuxingBase}}</text>
+        <text class="cv clickable" style="color:{{wuxingColor[diseaseResult.wuxingBase]}}" bindtap="onTermTap" data-term="{{diseaseResult.wuxingBase}}">{{diseaseResult.wuxingBase}}</text></view>
+      <view class="cmp-row"><text class="ck clickable" bindtap="onTermTap" data-term="司天">司天</text><text class="cv clickable" bindtap="onTermTap" data-term="{{birthResult.sitian}}">{{birthResult.sitian}}</text><text class="cv clickable" bindtap="onTermTap" data-term="{{diseaseResult.sitian}}">{{diseaseResult.sitian}}</text></view>
+      <view class="cmp-row"><text class="ck clickable" bindtap="onTermTap" data-term="在泉">在泉</text><text class="cv clickable" bindtap="onTermTap" data-term="{{birthResult.zaiquan}}">{{birthResult.zaiquan}}</text><text class="cv clickable" bindtap="onTermTap" data-term="{{diseaseResult.zaiquan}}">{{diseaseResult.zaiquan}}</text></view>
+      <view class="cmp-row"><text class="ck clickable" bindtap="onTermTap" data-term="主气">主气</text><text class="cv clickable" bindtap="onTermTap" data-term="{{birthResult.zhuqi}}">{{birthResult.zhuqi}}</text><text class="cv clickable" bindtap="onTermTap" data-term="{{diseaseResult.zhuqi}}">{{diseaseResult.zhuqi}}</text></view>
+      <view class="cmp-row"><text class="ck clickable" bindtap="onTermTap" data-term="客气">客气</text><text class="cv clickable" bindtap="onTermTap" data-term="{{birthResult.keqi}}">{{birthResult.keqi}}</text><text class="cv clickable" bindtap="onTermTap" data-term="{{diseaseResult.keqi}}">{{diseaseResult.keqi}}</text></view>
+    </view>
+    <view class="data-card" wx:if="{{birthResult && diseaseResult}}">
+      <text class="card-title">李阳波数字</text>
+      <view class="yangbo-row">
+        <view class="yangbo-box birth-box">
+          <text class="yangbo-tag">命</text>
+          <text class="yangbo-nums">{{birthYangboStr}}</text>
+        </view>
+        <view class="yangbo-box disease-box">
+          <text class="yangbo-tag">病</text>
+          <text class="yangbo-nums">{{diseaseYangboStr}}</text>
+        </view>
+      </view>
+    </view>
+    <!-- 五行权重 -->
+    <view class="data-card" wx:if="{{birthResult && diseaseResult}}">
+      <text class="card-title">五行权重对比</text>
+      <view class="weight-row" wx:for="{{['木','火','土','金','水']}}" wx:key="*this">
+        <text class="weight-el clickable" style="color:{{wuxingColor[item]}}" bindtap="onTermTap" data-term="{{item}}">{{item}}</text>
+        <view class="weight-bars">
+          <view class="w-bar birth-bar" style="width:{{birthWeights[item]*60}}rpx">
+            <text class="w-num">{{birthWeights[item]}}</text>
+          </view>
+          <view class="w-bar disease-bar" style="width:{{diseaseWeights[item]*60}}rpx">
+            <text class="w-num">{{diseaseWeights[item]}}</text>
+          </view>
+        </view>
+        <view class="weight-legend"><text class="wl-birth">命</text><text class="wl-disease">病</text></view>
+      </view>
+    </view>
+  </view>
+
+  <!-- 全屏蒙层（命图/病图均可展开） -->
+  <!-- 纯 WebView view，catchtap 直接有效，无 canvas 干扰 -->
+  <view class="chart-fullscreen {{fullscreenType?'fs-visible':''}}" catchtap="closeFullscreen">
+    <view class="fs-header">
+      <view class="fs-title-wrap">
+        <text class="fs-badge {{fullscreenType==='birth'?'fs-badge-birth':'fs-badge-disease'}}">
+          {{fullscreenType==='birth'?'命':'病'}}
+        </text>
+        <text class="fs-title">{{fullscreenType==='birth'?'命图·五行圆框架':'病图·五行圆框架'}}</text>
+      </view>
+      <view class="fs-close-btn" catchtap="closeFullscreen">
+        <text class="fs-close">✕</text>
+      </view>
+    </view>
+    <view class="fs-canvas-wrap">
+      <view class="qi-chart qi-chart-lg">
+        <view class="qi-lv"></view>
+        <view class="qi-lh"></view>
+        <text class="qi-dir qi-dir-s">南</text>
+        <text class="qi-dir qi-dir-n">北</text>
+        <text class="qi-dir qi-dir-e">东</text>
+        <text class="qi-dir qi-dir-w">西</text>
+        <view class="qi-pos qi-pf"><template is="qiNode" data="{{node: fullscreenChart.fire}}"/></view>
+        <view class="qi-pos qi-pw"><template is="qiNode" data="{{node: fullscreenChart.water}}"/></view>
+        <view class="qi-pos qi-pm"><template is="qiNode" data="{{node: fullscreenChart.wood}}"/></view>
+        <view class="qi-pos qi-pe"><template is="qiNode" data="{{node: fullscreenChart.earth}}"/></view>
+        <view class="qi-pos qi-pk"><template is="qiNode" data="{{node: fullscreenChart.metal}}"/></view>
+      </view>
+    </view>
+    <view class="fs-footer">
+      <text class="fs-hint">轻触任意处关闭</text>
+    </view>
+  </view>
+
+  <!-- 分享 -->
+  <view class="share-bar">
+    <button class="share-btn" open-type="share">分享命图</button>
+  </view>
+
+  <!-- 术语解释底部弹窗（原生实现，无需 tdesign） -->
+  <view class="popup-mask {{popupVisible?'popup-mask-show':''}}" catchtap="onPopupClose"></view>
+  <view class="popup-sheet {{popupVisible?'popup-sheet-show':''}}">
+    <view class="popup-bar">
+      <view class="popup-drag-handle"></view>
+      <view class="popup-close-btn" catchtap="onPopupClose"><text class="popup-close-x">✕</text></view>
+    </view>
+    <view class="explain-popup" wx:if="{{popupInfo}}">
+      <view class="ep-title" style="color:{{popupInfo.color||'#FFD700'}}">{{popupInfo.title}}</view>
+      <view class="ep-subtitle" wx:if="{{popupInfo.subtitle}}">{{popupInfo.subtitle}}</view>
+      <view class="ep-body">{{popupInfo.body}}</view>
+    </view>
+  </view>
+</view>

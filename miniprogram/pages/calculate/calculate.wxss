@@ -1,0 +1,116 @@
+/* pages/calculate/calculate.wxss */
+.page { min-height:100vh; background:#1A2744; padding:0 28rpx 140rpx; }
+
+/* 页头 */
+.page-header {
+  padding: 56rpx 8rpx 36rpx;
+}
+.page-title {
+  display: block;
+  font-size: 52rpx;
+  font-weight: 900;
+  color: #E8EAF6;
+  letter-spacing: 2rpx;
+}
+.page-sub {
+  display: block;
+  font-size: 26rpx;
+  color: #90A4AE;
+  margin-top: 10rpx;
+}
+
+/* 日期卡片 */
+.date-card {
+  border-radius: 24rpx;
+  padding: 32rpx;
+  margin-bottom: 24rpx;
+}
+.birth-card {
+  background: linear-gradient(145deg, #1A2B3C, #162233);
+  border: 1rpx solid rgba(255,215,0,0.25);
+}
+.disease-card {
+  background: linear-gradient(145deg, #2B1A1A, #221316);
+  border: 1rpx solid rgba(244,67,54,0.25);
+}
+.date-card-label {
+  display: flex;
+  align-items: center;
+  margin-bottom: 20rpx;
+}
+.dot {
+  width: 14rpx;
+  height: 14rpx;
+  border-radius: 50%;
+  margin-right: 16rpx;
+  flex-shrink: 0;
+}
+.dot-birth   { background: #FFD700; }
+.dot-disease { background: #F44336; }
+.label-text {
+  font-size: 26rpx;
+  font-weight: 600;
+  color: #90A4AE;
+}
+.picker-row {
+  display: flex;
+  align-items: center;
+  background: rgba(255,255,255,0.05);
+  border-radius: 16rpx;
+  padding: 24rpx 28rpx;
+}
+.picker-date {
+  font-size: 40rpx;
+  font-weight: 800;
+  color: #E8EAF6;
+  flex: 1;
+  letter-spacing: 1rpx;
+}
+.picker-gz {
+  font-size: 26rpx;
+  color: #90A4AE;
+  margin-right: 16rpx;
+}
+.picker-arrow {
+  font-size: 44rpx;
+  color: #90A4AE;
+  line-height: 1;
+}
+
+/* 生成按钮 */
+.gen-btn {
+  background: linear-gradient(135deg, #FFD700, #FF8F00);
+  border-radius: 24rpx;
+  padding: 40rpx;
+  text-align: center;
+  margin: 16rpx 0 40rpx;
+}
+.gen-btn:active { opacity: 0.85; }
+.gen-text {
+  font-size: 36rpx;
+  font-weight: 900;
+  color: #0D1B2A;
+  letter-spacing: 8rpx;
+}
+
+/* 说明 */
+.tips {
+  padding: 0 8rpx;
+}
+.tip-row {
+  display: flex;
+  align-items: flex-start;
+  margin-bottom: 14rpx;
+}
+.tip-dot {
+  color: #FFD700;
+  margin-right: 12rpx;
+  font-size: 28rpx;
+  line-height: 1.5;
+}
+.tip-txt {
+  font-size: 26rpx;
+  color: #607D8B;
+  line-height: 1.6;
+  flex: 1;
+}

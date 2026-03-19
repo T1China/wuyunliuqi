@@ -1,0 +1,30 @@
+{
+  "pages": [
+    "pages/home/home",
+    "pages/calculate/calculate",
+    "pages/result/result",
+    "pages/knowledge/knowledge",
+    "pages/profile/profile"
+  ],
+  "window": {
+    "backgroundTextStyle": "dark",
+    "navigationBarBackgroundColor": "#1A2744",
+    "navigationBarTitleText": "五运六气",
+    "navigationBarTextStyle": "white",
+    "backgroundColor": "#1A2744"
+  },
+  "tabBar": {
+    "custom": true,
+    "color": "#607D8B",
+    "selectedColor": "#FFD700",
+    "backgroundColor": "#1A2744",
+    "borderStyle": "black",
+    "list": [
+      { "pagePath": "pages/home/home",          "text": "今日" },
+      { "pagePath": "pages/calculate/calculate", "text": "推算" },
+      { "pagePath": "pages/knowledge/knowledge", "text": "知识" },
+      { "pagePath": "pages/profile/profile",     "text": "我的" }
+    ]
+  },
+  "usingComponents": {}
+}
